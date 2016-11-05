@@ -2,7 +2,7 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    Anthony Lukach -- @alukach
 
 # THANKS
 

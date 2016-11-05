@@ -1,3 +1,4 @@
+const path = require('path')
 const webpack = require('webpack')
 const cssnano = require('cssnano')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -17,9 +18,17 @@ const webpackConfig = {
   devtool : config.compiler_devtool,
   resolve : {
     root       : paths.client(),
-    extensions : ['', '.js', '.jsx', '.json']
+    extensions : ['', '.js', '.jsx', '.json'],
+    alias: {
+      'mapbox-gl/js/geo/transform': path.join(__dirname, '../node_modules', "mapbox-gl/js/geo/transform"),
+      'mapbox-gl': path.join(__dirname, '../node_modules', "mapbox-gl/dist/mapbox-gl.js")
+      // 'mapbox-gl/js/mapbox-gl.js': 'mapbox-gl/dist/mapbox-gl.js'
+    }
   },
-  module : {}
+  module : {},
+  node: {
+    fs: "empty"  // https://github.com/pugjs/pug-loader/issues/8
+  }
 }
 // ------------------------------------
 // Entry Points
