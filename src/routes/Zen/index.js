@@ -1,4 +1,5 @@
-import { injectReducer } from '../../store/reducers'
+import { injectReducer } from 'store/reducers'
+import { epic$ } from 'store/epics'
 
 export default (store) => ({
   path: 'zen',
@@ -10,11 +11,14 @@ export default (store) => ({
     ], (require) => {
       const Zen = require('./containers/ZenContainer').default
       const zenReducer = require('./modules/zen.reducer').default
+      const actions = require('./modules/zen.actions').default
 
       injectReducer(store, {
         key: 'zen',
         reducer: zenReducer
       })
+
+      epic$.next(actions.fetchZenEpic)
 
       next(null, Zen)
     })

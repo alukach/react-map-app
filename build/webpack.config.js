@@ -26,7 +26,9 @@ const webpackConfig = {
   },
   module : {},
   node: {
-    fs: "empty"  // https://github.com/pugjs/pug-loader/issues/8
+    fs: "empty",  // https://github.com/pugjs/pug-loader/issues/8
+    net: 'empty', // https://github.com/request/request/issues/1529#issuecomment-103454943
+    tls: 'empty',
   }
 }
 // ------------------------------------

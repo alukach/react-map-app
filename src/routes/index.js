@@ -12,7 +12,7 @@ export const createRoutes = (store) => ({
         require('./Counter').default(store),
         require('./Map').default(store),
         require('./Zen').default(store),
-        // require('./NotFound').default,
+        require('./NotFound').default,
       ])
     })
   }
