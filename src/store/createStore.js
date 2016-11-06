@@ -33,6 +33,7 @@ export default (initialState = {}) => {
     )
   )
   store.asyncReducers = {}
+  store.asyncEpics = {}
 
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))

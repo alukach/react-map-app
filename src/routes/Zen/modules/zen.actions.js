@@ -34,19 +34,27 @@ export function saveCurrentZen (): Action {
   }
 }
 
-export const fetchZen = (): Function => {
-  return (dispatch: Function): Promise => {
-    dispatch(requestZen())
+// export const fetchZen = (): Function => {
+//   return (dispatch: Function): Promise => {
+//     dispatch(requestZen())
 
-    return fetch('https://api.github.com/zen')
-      .then(data => data.text())
-      .then(text => dispatch(recieveZen(text)))
-  }
-}
+//     return fetch('https://api.github.com/zen')
+//       .then(data => data.text())
+//       .then(text => dispatch(recieveZen(text)))
+//   }
+// }
+
+export const fetchZenEpic = (action$) =>
+  action$.ofType(REQUEST_ZEN)
+    .mergeMap(action =>
+      ajax.getJSON('https://api.github.com/zen')
+        .map(data => data.text())
+        .map(recieveZen)
+    )
 
 export default {
   requestZen,
   recieveZen,
-  fetchZen,
+  fetchZenEpic,
   saveCurrentZen
 }

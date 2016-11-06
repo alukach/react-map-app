@@ -1,6 +1,5 @@
 /* @flow */
 import React from 'react'
-// import classes from './Zen.scss'
 import './Zen.scss'
 
 import type { ZenObject } from '../interfaces/zen'
@@ -8,7 +7,7 @@ import type { ZenObject } from '../interfaces/zen'
 type Props = {
   zen: ?ZenObject,
   saved: Array<ZenObject>,
-  fetchZen: Function,
+  requestZen: Function,
   saveCurrentZen: Function
 }
 
@@ -18,7 +17,7 @@ export const Zen = (props: Props) => (
       <h2 className='zenHeader'>
         {props.zen ? props.zen.value : ''}
       </h2>
-      <button className='btn btn-default' onClick={props.fetchZen}>
+      <button className='btn btn-default' onClick={props.requestZen}>
         Fetch a wisdom
       </button>
       {' '}
@@ -47,7 +46,7 @@ export const Zen = (props: Props) => (
 Zen.propTypes = {
   zen: React.PropTypes.object,
   saved: React.PropTypes.array.isRequired,
-  fetchZen: React.PropTypes.func.isRequired,
+  requestZen: React.PropTypes.func.isRequired,
   saveCurrentZen: React.PropTypes.func.isRequired
 }
 

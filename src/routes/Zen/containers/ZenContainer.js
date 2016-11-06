@@ -1,11 +1,11 @@
 /* @flow */
 import { connect } from 'react-redux'
-import { fetchZen, saveCurrentZen } from '../modules/zen.actions'
+import { requestZen, saveCurrentZen } from '../modules/zen.actions'
 import Zen from '../components/Zen'
 import type { ZenObject } from '../interfaces/zen'
 
-const mapActionCreators: {fetchZen: Function, saveCurrentZen: Function} = {
-  fetchZen,
+const mapActionCreators: {requestZen: Function, saveCurrentZen: Function} = {
+  requestZen,
   saveCurrentZen
 }
 
