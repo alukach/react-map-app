@@ -1,6 +1,10 @@
-.route--active {
-  font-weight: bold;
-  text-decoration: underline;
+.activeRoute {
+    button {
+        font-weight: bold;
+        text-decoration: underline;
+        color: red;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+    }
 }
 
 button {
