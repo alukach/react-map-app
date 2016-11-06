@@ -17,6 +17,9 @@ export const Header = () => (
       <Link to='/map' activeClassName="activeRoute">
         <FlatButton label="Map" />
       </Link>
+      <Link to='/zen' activeClassName="activeRoute">
+        <FlatButton label="Zen" />
+      </Link>
     </ToolbarGroup>
   </Toolbar>
 )

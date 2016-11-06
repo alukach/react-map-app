@@ -11,6 +11,7 @@ export const createRoutes = (store) => ({
       cb(null, [
         require('./Counter').default(store),
         require('./Map').default(store),
+        require('./Zen').default(store),
         // require('./NotFound').default,
       ])
     })
