@@ -1,8 +1,4 @@
 export const config = {
-  host: process.env.HOST || 'localhost',
-  port: process.env.PORT,
-  apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.APIPORT,
   mapboxApiToken: 'pk.eyJ1IjoiYWx1a2FjaCIsImEiOiJ3US1JLXJnIn0.xrpBHCwvzsX76YlO-08kjg',
   app: {
     title: 'El See Em',
