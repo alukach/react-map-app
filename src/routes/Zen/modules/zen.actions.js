@@ -1,4 +1,5 @@
 /* @flow */
+import { RxHttpRequest } from 'rx-http-request';
 
 // ------------------------------------
 // Constants
@@ -46,10 +47,13 @@ export function saveCurrentZen (): Action {
 
 export const fetchZenEpic = (action$) =>
   action$.ofType(REQUEST_ZEN)
-    .mergeMap(action =>
-      ajax.getJSON('https://api.github.com/zen')
+    .switchMap(action =>
+      RxHttpRequest.get('https://api.github.com/zen')
+      // ajax.getJSON('https://api.github.com/zen')
         .map(data => data.text())
+        .do(data => console.log(data))
         .map(recieveZen)
+        .catch(() => console.log("ERROR IN FETCH"))
     )
 
 export default {

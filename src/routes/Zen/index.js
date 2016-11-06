@@ -1,5 +1,5 @@
-import { injectReducer } from '../../store/reducers'
-import { injectEpic } from '../../store/epics'
+import { injectReducer } from 'store/reducers'
+import { epic$ } from 'store/epics'
 
 export default (store) => ({
   path: 'zen',
@@ -18,10 +18,7 @@ export default (store) => ({
         reducer: zenReducer
       })
 
-      injectEpic(store, {
-        key: 'zen',
-        epic: actions.fetchZenEpic
-      })
+      epic$.next(actions.fetchZenEpic)
 
       next(null, Zen)
     })

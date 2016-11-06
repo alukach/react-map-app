@@ -18,7 +18,6 @@ export function locationChange (location = '/') {
 // ------------------------------------
 export const updateLocation = ({ dispatch }) => {
   return (nextLocation) => {
-    console.log(nextLocation)
     return dispatch(locationChange(nextLocation))
   }
 }
