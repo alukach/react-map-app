@@ -4,6 +4,16 @@ import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
 
 // ========================================================
+// Project imports
+// ========================================================
+import 'rxjs/add/operator/do'
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/switchMap'
+import 'rxjs/add/operator/mergeMap'
+
+
+// ========================================================
 // Store Instantiation
 // ========================================================
 const initialState = window.___INITIAL_STATE__

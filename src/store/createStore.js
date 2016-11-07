@@ -39,7 +39,6 @@ export default (initialState = {}) => {
     )
   )
   store.asyncReducers = {}
-  store.asyncEpics = {}
 
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
@@ -49,6 +48,7 @@ export default (initialState = {}) => {
       const reducers = require('./reducers').default
       store.replaceReducer(reducers(store.asyncReducers))
     })
+    // TODO: Support reloading of Epics
   }
 
   return store

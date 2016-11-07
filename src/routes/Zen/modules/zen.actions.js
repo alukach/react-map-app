@@ -1,5 +1,6 @@
 /* @flow */
-import { RxHttpRequest } from 'rx-http-request';
+import { ajax } from 'rxjs/observable/dom/ajax';
+import { LOCATION_CHANGE } from 'store/location';
 
 // ------------------------------------
 // Constants
@@ -19,7 +20,7 @@ export function requestZen (): Action {
 }
 
 let availableId = 0
-export function recieveZen (value: string): Action {
+export function receiveZen (value: string): Action {
   return {
     type: RECIEVE_ZEN,
     payload: {
@@ -35,30 +36,18 @@ export function saveCurrentZen (): Action {
   }
 }
 
-// export const fetchZen = (): Function => {
-//   return (dispatch: Function): Promise => {
-//     dispatch(requestZen())
-
-//     return fetch('https://api.github.com/zen')
-//       .then(data => data.text())
-//       .then(text => dispatch(recieveZen(text)))
-//   }
-// }
-
 export const fetchZenEpic = (action$) =>
   action$.ofType(REQUEST_ZEN)
     .switchMap(action =>
-      RxHttpRequest.get('https://api.github.com/zen')
-      // ajax.getJSON('https://api.github.com/zen')
-        .map(data => data.text())
-        .do(data => console.log(data))
-        .map(recieveZen)
+      ajax({url: 'https://api.github.com/zen', withCredentials: false, responseType: 'text'})
+        .map(resp => resp.response)
+        .map(receiveZen)
         .catch(() => console.log("ERROR IN FETCH"))
     )
 
 export default {
   requestZen,
-  recieveZen,
+  receiveZen,
+  saveCurrentZen,
   fetchZenEpic,
-  saveCurrentZen
 }
