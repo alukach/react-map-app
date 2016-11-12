@@ -11,4 +11,4 @@ export const rootEpic = (action$, store) =>
     epic(action$, store)
   );
 
-export default epic$
+export default rootEpic

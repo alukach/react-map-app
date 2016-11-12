@@ -1,33 +1,40 @@
 import React from 'react'
-import Helmet from "react-helmet"
+import Helmet from 'react-helmet'
 import MapGL from 'react-map-gl'
-import config from 'config'
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import AutoComplete from 'material-ui/AutoComplete';
 import './Map.scss'
 
-export const MapView = () => {
-  let viewport = {
-    height: 900, // TODO: How to do full height?
-    latitude: 37.78,
-    longitude: -122.45,
-    zoom: 11,
-    startDragLngLat: null,
-    isDragging: false
-  };
-
+export const MapView = ({viewport, mapboxApiToken, searchChoices, onChangeSearch, onChangeViewport}) => {
   return (
-  <div>
-    <Helmet
-      title="Map"
-    />
-    <MapGL
-      {...viewport}
-      mapboxApiAccessToken={config.mapboxApiToken}
-      onChangeViewport={(viewport) => {
-        const {latitude, longitude, zoom} = viewport;
-        // Optionally call `setState` and use the state to update the map.
-      }}
-    />
-  </div>
-)}
+    <div>
+      <Helmet
+        title="Map"
+      />
+      <Card>
+        <CardHeader
+          title="Search"
+          subtitle="Find a place"
+        />
+        <CardActions>
+          <AutoComplete
+            hintText="eg Shorty's Seattle"
+            floatingLabelText="Search"
+            onUpdateInput={onChangeSearch}
+            dataSource={searchChoices}
+            filter={(searchText: string, key: string) => true}
+          />
+        </CardActions>
+      </Card>
+      <MapGL
+        mapboxApiAccessToken={mapboxApiToken}
+        height={900} // TODO How to do full height?
+        width='100%'
+        onChangeViewport={onChangeViewport}
+        {...viewport}
+      />
+    </div>
+  )
+}
 
 export default MapView

@@ -1,24 +1,26 @@
 import { injectReducer } from 'store/reducers'
+import { epic$ } from 'store/epics'
 
 export default (store) => ({
-  path : 'map',
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
-    /*  Webpack - use 'require.ensure' to create a split point
-        and embed an async module loader (jsonp) when bundling   */
-    require.ensure([], (require) => {
-      /*  Webpack - use require callback to define
-          dependencies for bundling   */
+  path: 'map',
+  getComponent (nextState, next) {
+    require.ensure([
+      './containers/MapContainer',
+      './modules/reducer',
+      './modules/actions',
+    ], (require) => {
       const MapContainer = require('./containers/MapContainer').default
-      // const reducer = require('./modules/map').default
+      const reducer = require('./modules/reducer')
+      const actions = require('./modules/actions').default
 
-      /*  Add the reducer to the store on key 'map'  */
-      // injectReducer(store, { key: 'map', reducer })
+      injectReducer(store, {
+        key: 'map',
+        reducer: reducer.default,
+      })
 
-      /*  Return getComponent   */
-      cb(null, MapContainer)
+      epic$.next(reducer.searchMapEpic)
 
-    /* Webpack named bundle   */
+      next(null, MapContainer)
     }, 'map')
   }
 })

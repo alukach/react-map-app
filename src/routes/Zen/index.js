@@ -21,6 +21,6 @@ export default (store) => ({
       epic$.next(actions.fetchZenEpic)
 
       next(null, Zen)
-    })
+    }, 'zen')
   }
 })

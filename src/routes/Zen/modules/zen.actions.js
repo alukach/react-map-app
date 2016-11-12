@@ -40,9 +40,10 @@ export const fetchZenEpic = (action$) =>
   action$.ofType(REQUEST_ZEN)
     .switchMap(action =>
       ajax({url: 'https://api.github.com/zen', withCredentials: false, responseType: 'text'})
+      // ajax({url: 'https://whosonfirst.mapzen.com/spelunker/api/search/?q=funhouse%20seattle', responseType: 'json'})
         .map(resp => resp.response)
         .map(receiveZen)
-        .catch(() => console.log("ERROR IN FETCH"))
+        .catch((err) => console.log("ERROR IN FETCH", err))
     )
 
 export default {

@@ -11,9 +11,12 @@ export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
+  // https://github.com/redux-observable/redux-observable/blob/master/docs/basics/SettingUpTheMiddleware.md
+  const epicMiddleware = createEpicMiddleware(rootEpic)
+
   const middleware = [
     thunk,
-    createEpicMiddleware(rootEpic) // https://github.com/redux-observable/redux-observable/blob/master/docs/basics/SettingUpTheMiddleware.md
+    epicMiddleware,
   ]
 
   // ======================================================
@@ -48,7 +51,13 @@ export default (initialState = {}) => {
       const reducers = require('./reducers').default
       store.replaceReducer(reducers(store.asyncReducers))
     })
-    // TODO: Support reloading of Epics
+    // https://redux-observable.js.org/docs/recipes/HotModuleReplacement.html
+    // TODO: Send EPIC_END signal to kill all existing epics to prevent
+    // duplicate listeners
+    module.hot.accept('./epics', () => {
+      const rootEpic = require('./epics').default
+      epicMiddleware.replaceEpic(rootEpic)
+    })
   }
 
   return store
