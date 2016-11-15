@@ -3,6 +3,7 @@ import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -20,13 +21,16 @@ class AppContainer extends Component {
 
   render () {
     const { routes, store } = this.props
+    const muiTheme = getMuiTheme({  // http://www.material-ui.com/#/customization/themes#customizing-the-theme
+      appBar: {
+        height: 50,
+      },
+    })
 
     return (
       <Provider store={store}>
-        <MuiThemeProvider>
-          <div style={{ height: '100%' }}>
-            <Router history={browserHistory} children={routes} />
-          </div>
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <Router history={browserHistory} children={routes} />
         </MuiThemeProvider>
       </Provider>
     )
