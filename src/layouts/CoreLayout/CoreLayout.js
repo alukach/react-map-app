@@ -12,7 +12,7 @@ export const CoreLayout = ({ children }) => (
       titleTemplate={"%s | " + config.app.title }
     />
     <Header />
-    <div>
+    <div style={{'height': '100%'}}>
       {children}
     </div>
   </div>
