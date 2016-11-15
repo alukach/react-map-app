@@ -11,7 +11,6 @@ export const MapView = (props) => (
       title="Map"
     />
     <MapCard
-      props={props}
       searchChoices={props.searchChoices}
       viewport={props.viewport}
       getLocation={props.getLocation}
