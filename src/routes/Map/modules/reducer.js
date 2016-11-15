@@ -65,7 +65,7 @@ export const MAP_ACTION_HANDLERS = {
   }),
   [MAP_SET_CENTER]: (state, {type, payload}) => ({
     ...state,
-    viewport: Object.assign({}, state.viewport, payload),
+    viewport: Object.assign({}, state.viewport, payload, {zoom: 16}),
     fetchingPosition: false
   }),
 }
