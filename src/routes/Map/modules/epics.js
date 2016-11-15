@@ -1,9 +1,9 @@
 /* @flow */
 import { EPIC_END } from 'redux-observable';
-import { Observable } from 'rxjs/Observable';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { race } from 'rxjs/add/operator/race';
 import { MAP_SEARCH, MAP_GET_CURRENT_POSITION, searchChoices, centerOn } from './reducer'
+import geolocation from './geolocation'
 
 export const searchMapEpic = (action$) =>
   action$.ofType(MAP_SEARCH)
@@ -16,29 +16,6 @@ export const searchMapEpic = (action$) =>
         .map(searchChoices)
         .catch((err) => console.log("ERROR IN FETCH", err))
     )
-
-class CurrentPositionObservable extends Observable {
-  constructor(options) {
-    super();
-
-    this.options = options;
-  }
-
-  _subscribe(observer) {
-    window.navigator.geolocation.getCurrentPosition(
-      data => {
-        observer.next(data);
-        observer.complete();
-      },
-      e => observer.error(e),
-      this.options
-    );
-  }
-}
-
-const geolocation = {
-  currentPosition: options => new CurrentPositionObservable(options)
-};
 
 export const getLocationEpic = (action$) =>
   action$.ofType(MAP_GET_CURRENT_POSITION)
