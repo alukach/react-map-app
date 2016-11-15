@@ -7,18 +7,19 @@ export default (store) => ({
     require.ensure([
       './containers/MapContainer',
       './modules/reducer',
-      './modules/actions',
     ], (require) => {
       const MapContainer = require('./containers/MapContainer').default
-      const reducer = require('./modules/reducer')
-      const actions = require('./modules/actions').default
+      const reducer = require('./modules/reducer').default
+      const epics = require('./modules/epics').default
 
       injectReducer(store, {
         key: 'map',
-        reducer: reducer.default,
+        reducer: reducer,
       })
 
-      epic$.next(reducer.searchMapEpic)
+      for (let epic of epics) {
+        epic$.next(epic)
+      }
 
       next(null, MapContainer)
     }, 'map')
