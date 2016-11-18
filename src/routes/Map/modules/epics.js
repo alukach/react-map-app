@@ -2,7 +2,7 @@
 import { EPIC_END } from 'redux-observable';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { race } from 'rxjs/add/operator/race';
-import { MAP_SEARCH, MAP_GET_CURRENT_POSITION, searchChoices, centerOn } from './reducer'
+import { MAP_SEARCH, MAP_GET_CURRENT_POSITION, searchChoices, addPoint } from './reducer'
 import geolocation from './geolocation'
 
 export const searchMapEpic = (action$) =>
@@ -22,7 +22,8 @@ export const getLocationEpic = (action$) =>
     .switchMap(action =>
       geolocation.currentPosition({enableHighAccuracy:true, maximumAge:30000, timeout:27000})
         .map(pos => pos.coords)
-        .map(centerOn)
+        .map(coords => addPoint(coords, 'my-location'))
+        // TODO: Also emit MAP_GET_CURRENT_POSITION_COMPLETE
         .catch((err) => {
           let message
           switch (err.code) {

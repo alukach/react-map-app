@@ -7,7 +7,8 @@ export const MAP_SEARCH = 'MAP_SEARCH'
 export const MAP_SEARCH_CHOICES = 'MAP_SEARCH_CHOICES'
 export const MAP_CHANGE_VIEWPORT = 'MAP_CHANGE_VIEWPORT'
 export const MAP_GET_CURRENT_POSITION = 'MAP_GET_CURRENT_POSITION'
-export const MAP_SET_CENTER = 'MAP_SET_CENTER'
+export const MAP_GET_CURRENT_POSITION_COMPLETE = 'MAP_GET_CURRENT_POSITION_COMPLETE'
+export const MAP_ADD_POINT = 'MAP_ADD_POINT'
 
 // ------------------------------------
 // Actions Helpers
@@ -37,12 +38,13 @@ export function getLocation (event): Action {
     type: MAP_GET_CURRENT_POSITION,
   }
 }
-export function centerOn (coordinates): Action {
+export function addPoint (coordinates, id): Action {
   return {
-    type: MAP_SET_CENTER,
+    type: MAP_ADD_POINT,
     payload: {
       latitude: coordinates.latitude,
-      longitude: coordinates.longitude
+      longitude: coordinates.longitude,
+      id
     }
   }
 }
@@ -63,10 +65,16 @@ export const MAP_ACTION_HANDLERS = {
     ...state,
     fetchingPosition: true
   }),
-  [MAP_SET_CENTER]: (state, {type, payload}) => ({
+  [MAP_GET_CURRENT_POSITION_COMPLETE]: (state, payload) => ({
     ...state,
-    viewport: Object.assign({}, state.viewport, payload, {zoom: 16}),
     fetchingPosition: false
+  }),
+  [MAP_ADD_POINT]: (state, {type, payload}) => ({
+    ...state,
+    points: [
+      ...state.points.filter(p => p.id != payload.id),
+      payload
+    ]
   }),
 }
 
@@ -77,7 +85,8 @@ export const MAP_ACTION_HANDLERS = {
 const initialState = {
   searchChoices: [],
   viewportMeta: {
-    attributionControl: true
+    attributionControl: true,
+    perspectiveEnabled: true
   },
   viewport: {
     latitude: 45.55,
@@ -85,6 +94,7 @@ const initialState = {
     zoom: 11,
   },
   fetchingPosition: false,
+  points: [],
 }
 
 export default function mapReducer (state = initialState, action: Action) {

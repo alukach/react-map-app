@@ -24,7 +24,8 @@ const mapStateToProps = (state) => ({
   viewport: state.map.viewport,
   viewportMeta: state.map.viewportMeta,
   searchChoices: state.map.searchChoices,
-  fetchingPosition: state.map.fetchingPosition
+  fetchingPosition: state.map.fetchingPosition,
+  points: state.map.points,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
