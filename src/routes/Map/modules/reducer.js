@@ -97,7 +97,7 @@ const initialState = {
   points: [],
 }
 
-export default function mapReducer (state = initialState, action: Action) {
+export function mapReducer (state = initialState, action: Action) {
   const handler = MAP_ACTION_HANDLERS[action.type]
 
   // TODO: Should we just pass 'action.payload' instead of 'action'

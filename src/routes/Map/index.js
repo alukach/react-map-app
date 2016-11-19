@@ -9,7 +9,7 @@ export default (store) => ({
       './modules/reducer',
     ], (require) => {
       const MapContainer = require('./containers/MapContainer').default
-      const reducer = require('./modules/reducer').default
+      const reducer = require('./modules/reducer').mapReducer
       const epics = require('./modules/epics').default
 
       injectReducer(store, {
