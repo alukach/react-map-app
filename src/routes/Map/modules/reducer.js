@@ -38,6 +38,11 @@ export function getLocation (event): Action {
     type: MAP_GET_CURRENT_POSITION,
   }
 }
+export function getLocationComplete (): Action {
+  return {
+    type: MAP_GET_CURRENT_POSITION_COMPLETE,
+  }
+}
 export function addPoint (coordinates, id): Action {
   return {
     type: MAP_ADD_POINT,
