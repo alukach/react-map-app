@@ -1,22 +1,20 @@
 import React from 'react'
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import Checkbox from 'material-ui/Checkbox';
 import AutoComplete from 'material-ui/AutoComplete';
+import RaisedButton from 'material-ui/RaisedButton';
+import MdLocationSearching from 'react-icons/lib/md/location-searching';
 
-export const MapCard = ({onChangeSearch, searchChoices, viewport, getLocation, fetchingPosition}) => (
+export const MapCard = ({onChangeSearch, searchChoices, getLocation, gettingLocation, watchLocation, watchingLocation}) => (
   <Card id="search-card">
     <CardHeader
-      title="Search"
-      subtitle="Find a place"
-      actAsExpander={true}
-      showExpandableButton={true}
+      title="MapCard"
+      subtitle="Things that control the map"
+      actAsExpander={false}
+      showExpandableButton={false}
     />
     <CardText
-      expandable={true}>
-      <button onClick={getLocation}>
-        Get Location
-      </button>
-      {fetchingPosition ? <b>FETCHING</b> : null}
-      <br />
+      expandable={false}>
       <AutoComplete
         hintText="eg Shorty's Seattle"
         floatingLabelText="Search"
@@ -25,9 +23,18 @@ export const MapCard = ({onChangeSearch, searchChoices, viewport, getLocation, f
         filter={(searchText: string, key: string) => true}
       />
       <br />
-      <code>
-        {viewport.latitude}, {viewport.longitude}
-      </code>
+      <br />
+      <RaisedButton
+        label={<span><MdLocationSearching /> {gettingLocation ? "Getting Location" : "Get Location"}</span>}
+        onClick={getLocation}
+        disabled={gettingLocation}
+      />
+      <br />
+      <Checkbox
+        label="Watch location"
+        checked={watchingLocation}
+        onCheck={e => watchLocation(e.target.checked)}
+      />
     </CardText>
   </Card>
 )

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { searchMap, changeViewport, getLocation } from '../modules/reducer'
+import { searchMap, changeViewport, getLocation, watchLocation } from '../modules/reducer'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -16,16 +16,14 @@ import config from 'config'
 const mapDispatchToProps = {
   onChangeSearch: searchMap,
   onChangeViewport: changeViewport,
-  getLocation: getLocation,
+  getLocation,
+  watchLocation,
+
 }
 
 const mapStateToProps = (state) => ({
   mapboxApiToken: config.mapboxApiToken,
-  viewport: state.map.viewport,
-  viewportMeta: state.map.viewportMeta,
-  searchChoices: state.map.searchChoices,
-  fetchingPosition: state.map.fetchingPosition,
-  points: state.map.points,
+  ...state.map
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

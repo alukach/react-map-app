@@ -1,4 +1,5 @@
 /* @flow */
+import { REHYDRATE } from 'redux-persist/constants'
 
 // ------------------------------------
 // Constants
@@ -8,7 +9,12 @@ export const MAP_SEARCH_CHOICES = 'MAP_SEARCH_CHOICES'
 export const MAP_CHANGE_VIEWPORT = 'MAP_CHANGE_VIEWPORT'
 export const MAP_GET_CURRENT_POSITION = 'MAP_GET_CURRENT_POSITION'
 export const MAP_GET_CURRENT_POSITION_COMPLETE = 'MAP_GET_CURRENT_POSITION_COMPLETE'
+export const MAP_GET_LOCALITY = 'MAP_GET_LOCALITY'
+export const MAP_START_WATCH_POSITION = 'MAP_START_WATCH_POSITION'
+export const MAP_END_WATCH_POSITION = 'MAP_END_WATCH_POSITION'
 export const MAP_ADD_POINT = 'MAP_ADD_POINT'
+export const MAP_RM_POINT = 'MAP_RM_POINT'
+export const MY_LOCATION_ID = "my-location"
 
 // ------------------------------------
 // Actions Helpers
@@ -43,6 +49,17 @@ export function getLocationComplete (): Action {
     type: MAP_GET_CURRENT_POSITION_COMPLETE,
   }
 }
+export function getLocality (latitude:Number, longitude:Number): Action {
+  return {
+    type: MAP_GET_CURRENT_POSITION_COMPLETE,
+    payload: { latitude, longitude }
+  }
+}
+export function watchLocation (payload:Boolean): Action {
+  return {
+    type: payload ? MAP_START_WATCH_POSITION : MAP_END_WATCH_POSITION,
+  }
+}
 export function addPoint (coordinates, id): Action {
   return {
     type: MAP_ADD_POINT,
@@ -53,11 +70,29 @@ export function addPoint (coordinates, id): Action {
     }
   }
 }
+export function rmPoint (id): Action {
+  return {
+    type: MAP_RM_POINT,
+    payload: id
+  }
+}
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 export const MAP_ACTION_HANDLERS = {
+  [REHYDRATE]: (defaultState, {type, payload}) => {
+    var storedState = payload.map
+    if (!storedState) return defaultState
+    return {
+      ...defaultState,
+      ...storedState,
+      // Override persisted state with defaults
+      points: storedState.points.filter(p => p.id != MY_LOCATION_ID),
+      gettingLocation: defaultState.gettingLocation,
+      watchingLocation: defaultState.watchingLocation,
+    }
+  },
   [MAP_CHANGE_VIEWPORT]: (state, {type, payload}) => ({
     ...state,
     viewport: payload
@@ -66,13 +101,13 @@ export const MAP_ACTION_HANDLERS = {
     ...state,
     searchChoices: payload
   }),
-  [MAP_GET_CURRENT_POSITION]: (state, payload) => ({
+  [MAP_GET_CURRENT_POSITION]: (state, {type, payload}) => ({
     ...state,
-    fetchingPosition: true
+    gettingLocation: true
   }),
   [MAP_GET_CURRENT_POSITION_COMPLETE]: (state, payload) => ({
     ...state,
-    fetchingPosition: false
+    gettingLocation: false
   }),
   [MAP_ADD_POINT]: (state, {type, payload}) => ({
     ...state,
@@ -80,6 +115,19 @@ export const MAP_ACTION_HANDLERS = {
       ...state.points.filter(p => p.id != payload.id),
       payload
     ]
+  }),
+  [MAP_RM_POINT]: (state, {type, payload}) => ({
+    ...state,
+    points: state.points.filter(p => p.id != payload),
+  }),
+  [MAP_START_WATCH_POSITION]: (state, {type, payload}) => ({
+    ...state,
+    watchingLocation: true
+  }),
+  [MAP_END_WATCH_POSITION]: (state, {type, payload}) => ({
+    ...state,
+    watchingLocation: false,
+    points: state.points.filter(p => p.id != MY_LOCATION_ID),
   }),
 }
 
@@ -97,9 +145,16 @@ const initialState = {
     latitude: 45.55,
     longitude: -122.68,
     zoom: 11,
+    pitch: 0,
+    bearing: 0,
+    isDragging: false,
+    startDragLngLat: null,
+    startBearing: null,
+    startPitch: null,
   },
-  fetchingPosition: false,
+  gettingLocation: false,
   points: [],
+  watchingLocation: false
 }
 
 export function mapReducer (state = initialState, action: Action) {

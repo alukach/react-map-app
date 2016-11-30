@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import MapGL from 'react-map-gl'
 import Dimensions from 'react-dimensions'
 import MapCard from './MapCard'
-import PointsOverlay from './PointsOverlay'
+import { PointsOverlay } from './PointsOverlay'
 import './Map.scss'
 
 export const MapView = (props) => (
@@ -12,10 +12,7 @@ export const MapView = (props) => (
       title="Map"
     />
     <MapCard
-      searchChoices={props.searchChoices}
-      viewport={props.viewport}
-      getLocation={props.getLocation}
-      fetchingPosition={props.fetchingPosition}
+      {...props}
     />
     <MapGL
       mapboxApiAccessToken={props.mapboxApiToken}
@@ -27,7 +24,7 @@ export const MapView = (props) => (
       {...props.viewportMeta}
     >
       <PointsOverlay
-        locations={props.points}
+        points={props.points}
         width={props.containerWidth}
         height={props.containerHeight}
         {...props.viewport}
