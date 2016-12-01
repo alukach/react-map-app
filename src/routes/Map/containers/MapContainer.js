@@ -6,7 +6,7 @@ import { searchMap, changeViewport, getLocation, watchLocation } from '../module
     wiring in the actions and state necessary to render a presentational
     component - in this case, the counter:   */
 
-import MapView from '../components/Map'
+import MapView from '../components/MapView'
 import config from 'config'
 
 /*  Object of action creators (can also be function that returns object).
@@ -18,7 +18,6 @@ const mapDispatchToProps = {
   onChangeViewport: changeViewport,
   getLocation,
   watchLocation,
-
 }
 
 const mapStateToProps = (state) => ({

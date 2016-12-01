@@ -1,36 +1,49 @@
-import React from 'react'
-import Helmet from 'react-helmet'
+import React, { Component, PropTypes } from 'react'
+import SVGOverlay from 'react-map-gl/dist/overlays/svg.react'
 import MapGL from 'react-map-gl'
-import Dimensions from 'react-dimensions'
-import MapCard from './MapCard'
-import { PointsOverlay } from './PointsOverlay'
-import './Map.scss'
+import config from 'react-map-gl/dist/config'
+import { ClickablePointsOverlay } from './ClickablePointsOverlay'
 
-export const MapView = (props) => (
-  <div>
-    <Helmet
-      title="Map"
+export const Map = (props) => {
+  const {
+    viewport, viewportMeta, mapboxApiToken, onChangeViewport,
+    containerHeight, containerWidth, points } = props
+
+  const renderPopup = console.log
+  const renderPoint = (point) => (
+    <circle
+      r={5}
+      onClick={renderPopup}
+      style={ {cursor: 'pointer'} }
     />
-    <MapCard
-      {...props}
-    />
+  )
+
+  return (
     <MapGL
-      mapboxApiAccessToken={props.mapboxApiToken}
-      attributionControl={true}
-      onChangeViewport={props.onChangeViewport}
-      width={props.containerWidth}
-      height={props.containerHeight}
-      {...props.viewport}
-      {...props.viewportMeta}
+      {...viewport}
+      {...viewportMeta}
+      mapboxApiAccessToken={mapboxApiToken}
+      onChangeViewport={onChangeViewport}
+      height={containerHeight}
+      width={containerWidth}
     >
-      <PointsOverlay
-        points={props.points}
-        width={props.containerWidth}
-        height={props.containerHeight}
-        {...props.viewport}
+      <ClickablePointsOverlay  // TODO: Show grabbed hand when dragging
+        {...viewport}
+        points={points}
+        width={containerWidth}
+        height={containerHeight}
+        renderPoint={renderPoint}
       />
     </MapGL>
-  </div>
-)
+  )
+}
 
-export default Dimensions()(MapView)
+Map.propTypes = {
+  points          : PropTypes.array.isRequired,
+  mapboxApiToken  : PropTypes.string.isRequired,
+  onChangeViewport: PropTypes.func.isRequired,
+  containerWidth  : PropTypes.number.isRequired,
+  containerHeight : PropTypes.number.isRequired,
+  viewport        : PropTypes.object.isRequired, // TODO: Describe shape
+  viewportMeta    : PropTypes.object.isRequired, // TODO: Describe shape
+}
