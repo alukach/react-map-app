@@ -4,9 +4,8 @@ import config from 'react-map-gl/dist/config'
 import transform from 'svg-transform';
 import ViewportMercator from 'viewport-mercator-project';
 
-
 export const ClickablePointsOverlay = (props) => {
-  const {points, width, height, style, lngLatAccessor} = props;
+  const {points, width, height, style, lngLatAccessor, isDragging} = props;
   const mercator = ViewportMercator(props);
 
   return (
@@ -18,6 +17,7 @@ export const ClickablePointsOverlay = (props) => {
         position: 'absolute',
         left: 0,
         top: 0,
+        cursor: isDragging ? config.CURSOR.GRABBING : config.CURSOR.GRAB,
         ...style
       } }
     >
