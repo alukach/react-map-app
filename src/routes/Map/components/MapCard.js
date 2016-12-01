@@ -24,14 +24,8 @@ export const MapCard = ({onChangeSearch, searchChoices, getLocation, gettingLoca
       />
       <br />
       <br />
-      <RaisedButton
-        label={<span><MdLocationSearching /> {gettingLocation ? "Getting Location" : "Get Location"}</span>}
-        onClick={getLocation}
-        disabled={gettingLocation}
-      />
-      <br />
       <Checkbox
-        label="Watch location"
+        label={<span><MdLocationSearching />Add location</span>}
         checked={watchingLocation}
         onCheck={e => watchLocation(e.target.checked)}
       />
