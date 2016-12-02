@@ -5,9 +5,7 @@ import MapCard from './MapCard'
 import { Map } from './Map'
 import './MapView.scss'
 
-export const MapView = (props) => {
-  console.log(props)
-  return (
+export const MapView = (props) => (
   <div>
     <Helmet
       title="Map"
@@ -20,6 +18,6 @@ export const MapView = (props) => {
     />
 
   </div>
-)}
+)
 
 export default Dimensions()(MapView)

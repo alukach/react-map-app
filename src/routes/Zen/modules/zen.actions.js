@@ -1,6 +1,5 @@
 /* @flow */
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { LOCATION_CHANGE } from 'store/location';
 
 // ------------------------------------
 // Constants

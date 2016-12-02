@@ -1,5 +1,4 @@
 export const config = {
-  mapboxApiToken: 'pk.eyJ1IjoiYWx1a2FjaCIsImEiOiJ3US1JLXJnIn0.xrpBHCwvzsX76YlO-08kjg',
   app: {
     title: 'El See Em',
     description: 'Just some LCMing',
@@ -21,7 +20,21 @@ export const config = {
       ]
     }
   },
-
+  mapboxApiToken: 'pk.eyJ1IjoiYWx1a2FjaCIsImEiOiJ3US1JLXJnIn0.xrpBHCwvzsX76YlO-08kjg',
+  oauth: {
+    apiUrl:                  'http://livingcitymap2.dev/api',
+    signOutPath:             '/evil_user_auth/sign_out',
+    emailSignInPath:         '/evil_user_auth/sign_in',
+    emailRegistrationPath:   '/evil_user_auth',
+    accountUpdatePath:       '/evil_user_auth',
+    accountDeletePath:       '/evil_user_auth',
+    passwordResetPath:       '/evil_user_auth/password',
+    passwordUpdatePath:      '/evil_user_auth/password',
+    tokenValidationPath:     '/evil_user_auth/validate_token',
+    authProviderPaths: {
+      github:    '/auth/social/jwt_user/github',
+      facebook:  '/auth/social/jwt_user/facebook',
+      google:    '/auth/social/jwt_user/google_oauth2'
+    }
+  }
 }
-
-export default config

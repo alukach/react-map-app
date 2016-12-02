@@ -7,7 +7,7 @@ import { searchMap, changeViewport, getLocation, watchLocation } from '../module
     component - in this case, the counter:   */
 
 import MapView from '../components/MapView'
-import config from 'config'
+import { config } from 'config'
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are

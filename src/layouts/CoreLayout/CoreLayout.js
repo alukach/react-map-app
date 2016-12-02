@@ -3,7 +3,7 @@ import Helmet from "react-helmet"
 import Header from '../../components/Header'
 import './CoreLayout.scss'
 import 'styles/core.scss'
-import config from 'config'
+import { config } from 'config'
 
 export const CoreLayout = ({ children }) => (
   <div className='container text-center'>

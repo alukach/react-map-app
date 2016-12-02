@@ -1,7 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
-import { createEpicMiddleware } from 'redux-observable';
+import { createEpicMiddleware } from 'redux-observable'
 import { persistStore, autoRehydrate } from 'redux-persist'
 
 import makeRootReducer from './reducers'
@@ -45,9 +44,6 @@ export default (initialState = {}) => {
   )
   store.asyncReducers = {}
   persistStore(store)
-
-  // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
-  store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

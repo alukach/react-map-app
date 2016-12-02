@@ -1,7 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+import { configure } from "redux-auth"
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
+import { config } from 'config'
 import './imports'
 
 // ========================================================
@@ -18,8 +22,14 @@ const MOUNT_NODE = document.getElementById('root')
 let render = () => {
   const routes = require('./routes/index').default(store)
 
+  // https://github.com/reactjs/react-router-redux#tutorial
+  const history = syncHistoryWithStore(browserHistory, store)
+
+  // Configure Redux-Auth
+  store.dispatch(configure(config.oauth))
+
   ReactDOM.render(
-    <AppContainer store={store} routes={routes} />,
+    <AppContainer store={store} routes={routes} history={history} />,
     MOUNT_NODE
   )
 }
